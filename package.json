@@ -1,0 +1,15 @@
+{
+  "name": "devtinder-backend",
+  "version": "1.0.0",
+  "description": "project mern",
+  "main": "index.js",
+  "scripts": {
+    "start":"node src/app.js",
+    "dev":"nodemon src/app.js"
+  },
+  "author": "muhammed kans",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
