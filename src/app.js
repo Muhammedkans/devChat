@@ -3,31 +3,18 @@ const express = require('express');
 
 const app = express();
 
-
-
-app.use("/profile",  (req,res,next)=>{
-  console.log("haii")
-  const token= 'xywz'
-  if(token=== 'xyz'){
-    res.send('hahha')
-  }
-  else{
-    next();
-  }
- 
-  
- },(req,res,next)=>{
- next()
-},(req,res)=>{
-  res.status(404).send("something went wrong")
-})
-
-
-app.get("/profile/name",(req,res)=>{
+app.use("/", (req,res)=>{
+  throw new Error(" halooi");
   
   res.send("hahah")
-  console.log(" hloii starting");
-});
+})
+
+app.use("/profile", (err,req,res,next)=>{
+  
+  if(err){
+    res.status(500).send("something went wrong");
+  }
+})
 
 
 
