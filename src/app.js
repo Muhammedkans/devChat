@@ -1,12 +1,18 @@
 const express = require('express');
 const connectDB = require('./config/database');
-const {validateSignUpDate }= require("./utils/validation")
-const bcrypt = require('bcrypt');
 const app = express();
-const User = require("./models/user")
+const User = require("./models/user");
+const cookieParser = require("cookie-parser");
+const authRouter = require("./Routes/auth");
+const profileRouter  = require("./Routes/profile");
+const requestRouter = require("./Routes/request");
  app.use(express.json());
+ app.use(cookieParser());
 
-
+ app.use("/", authRouter);
+ app.use("/", profileRouter);
+ app.use("/", requestRouter);
+ 
    app.delete("/user", async (req,res)=>{
    const userId = req.body.userId;
 
@@ -78,61 +84,6 @@ catch(err){
 }
 })
 
-app.post("/signup", async (req,res)=>{
-  console.log(req.body);
- 
- try{
-validateSignUpDate(req);
-
-const {firstName, lastName , emailId , password}= req.body;
-
-const passwordHash = await bcrypt.hash(password,10)
-  const user = new User({
-    firstName,
-    lastName,
-    emailId,
-    password:passwordHash,
-  });
-   await user.save();
-  
-  res.send("USER adder successfully")
- }
- catch(err){
-  console.log( " eroor happening "+ err.message);
-  res.status(500).send("something went wrong " + err.message);
-}
-})
-
-
-app.post("/login", async (req, res)=>{
-
-  try{
-    const {emailId, password} = req.body;
-
-    const user = await User.findOne({emailId: emailId});
-
-    if(!user){
-      throw new Error("Email id not present ")
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if(isPasswordValid){
-      res.send(" Login Succesfly");
-    }
-    else{
-      throw new Error("Passwod id is not Correct ")
-    }
-  }
-  catch(err){
-   
-  res.status(400).send("something went wrong " + err.message)
-  
-  }
-
-
-})
-
 connectDB().then(
   ()=>{
     console.log(" database connection established");
@@ -142,7 +93,7 @@ connectDB().then(
   }
 )
 .catch((err)=>{
-  console.log(" database cannot be connected   ")
+  console.log(" database cannot be connected"+err.message);
 })
 
 

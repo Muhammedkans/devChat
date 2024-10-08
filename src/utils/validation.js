@@ -14,12 +14,6 @@ const validateSignUpDate = (req)=>{
     throw new Error("Plz enter a strong Passwod ")
   }
 
-
-
-  
- 
- 
-
 };
 
 
