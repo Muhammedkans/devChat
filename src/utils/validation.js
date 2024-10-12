@@ -17,6 +17,20 @@ const validateSignUpDate = (req)=>{
 };
 
 
+const validateEditProfileDate = (req)=> {
+
+  const allowedEditField = ["firstName",  "lastName ", "gender","age" ,"about", "skills"];
+
+const isEditAllowed = Object.keys(req.body).every((field)=>{
+  return allowedEditField.includes(field)
+});
+
+return  isEditAllowed;
+};
+
+
+
 module.exports = {
   validateSignUpDate,
+  validateEditProfileDate,
 }

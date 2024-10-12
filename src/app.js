@@ -22,7 +22,7 @@ const requestRouter = require("./Routes/request");
        res.send(" user delete succefully");
    }catch(err)
    {
-        res.status(404).send( "user deleted not succesfly" +err.message);
+        res.status(404).send( "user deleted not succesfly" +err.message );
    }
    
    })
